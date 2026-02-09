@@ -50,6 +50,7 @@
     font: 18px / 1.5 system-ui;
     font-size: var(--prompter-font-size, 18px);
     background-color: var(--prompter-bg, transparent);
+    color: var(--prompter-fg, var(--text));
     tab-size: 4;
     white-space: pre-wrap;
     text-wrap-style: stable;
@@ -607,6 +608,8 @@
 
     function applyBgColor() {
       document.body.style.setProperty('--prompter-bg', state.bgColor)
+      const isDark = luminance(state.bgColor) < 0.4
+      document.body.style.setProperty('--prompter-fg', isDark ? '#fff' : '#111')
     }
 
     function luminance(hex) {
