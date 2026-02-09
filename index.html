@@ -636,7 +636,8 @@
     const el = document.getElementById('key-debug')
     if (el) {
       const code = e.keyCode ?? e.which
-      el.textContent = 'key: ' + JSON.stringify(e.key) + '\nkeyCode: ' + code + '\nwhich: ' + e.which + '\ncode: ' + (e.code || '')
+      const prompterOn = document.body.classList.contains('prompter-mode')
+      el.textContent = 'Prompter: ' + (prompterOn ? 'on' : 'off') + '\nkey: ' + JSON.stringify(e.key) + '\nkeyCode: ' + code + '\nwhich: ' + e.which + '\ncode: ' + (e.code || '')
     }
     if ((e.metaKey || e.ctrlKey) && e.code === 'KeyS') {
       e.preventDefault()
@@ -871,13 +872,15 @@
       const el = document.getElementById('key-debug')
       if (el) {
         const code = e.keyCode ?? e.which
-        el.textContent = 'key: ' + JSON.stringify(e.key) + '\nkeyCode: ' + code + '\nwhich: ' + e.which + '\ncode: ' + (e.code || '')
+        el.textContent = 'Prompter: on\nkey: ' + JSON.stringify(e.key) + '\nkeyCode: ' + code + '\nwhich: ' + e.which + '\ncode: ' + (e.code || '')
       }
       const code = e.keyCode ?? e.which
-      const isUp = e.key === 'ArrowUp' || e.key === 'Up' || e.key === 'MediaFastForward' || code === 38 || code === 19 || code === 228
-      const isDown = e.key === 'ArrowDown' || e.key === 'Down' || e.key === 'MediaRewind' || code === 40 || code === 20 || code === 227
-      const isLeft = e.key === 'MediaTrackPrevious' || code === 177
-      const isRight = e.key === 'MediaTrackNext' || code === 176
+      const k = (e.key || '').toLowerCase()
+      const c = (e.code || '').toLowerCase()
+      const isUp = e.key === 'ArrowUp' || e.key === 'Up' || k === 'mediafastforward' || e.code === 'MediaFastForward' || code === 38 || code === 19 || code === 228
+      const isDown = e.key === 'ArrowDown' || e.key === 'Down' || k === 'mediarewind' || e.code === 'MediaRewind' || code === 40 || code === 20 || code === 227
+      const isLeft = e.key === 'MediaTrackPrevious' || c === 'mediatrackprevious' || code === 177
+      const isRight = e.key === 'MediaTrackNext' || c === 'mediatracknext' || code === 176
       if (isUp) {
         e.preventDefault()
         smoothScrollBy(-JUMP_PX)
