@@ -786,10 +786,13 @@
 
     document.addEventListener('keydown', e => {
       if (!document.body.classList.contains('prompter-mode')) return
-      if (e.key === 'ArrowUp') {
+      const code = e.keyCode ?? e.which
+      const isUp = e.key === 'ArrowUp' || e.key === 'Up' || code === 38 || code === 19
+      const isDown = e.key === 'ArrowDown' || e.key === 'Down' || code === 40 || code === 20
+      if (isUp) {
         e.preventDefault()
         smoothScrollBy(-JUMP_PX)
-      } else if (e.key === 'ArrowDown') {
+      } else if (isDown) {
         e.preventDefault()
         smoothScrollBy(JUMP_PX)
       }
