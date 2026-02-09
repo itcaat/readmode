@@ -48,6 +48,8 @@
     width: 100%;
     min-height: 100dvh;
     font: 18px / 1.5 system-ui;
+    font-size: var(--prompter-font-size, 18px);
+    background-color: var(--prompter-bg, transparent);
     tab-size: 4;
     white-space: pre-wrap;
     text-wrap-style: stable;
@@ -148,6 +150,51 @@
   #button:focus-visible {
     outline: 2px solid var(--outline);
     outline-offset: 2px;
+  }
+
+  #teleprompter-play {
+    -webkit-tap-highlight-color: transparent;
+    background-color: #34c759;
+    border-radius: 50%;
+    border: none;
+    bottom: 15px;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+    color: #fff;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    outline: none;
+    padding: 0;
+    position: fixed;
+    right: 69px;
+    text-decoration: none;
+    touch-action: manipulation;
+    transition: background-color .3s ease-out;
+    user-select: none;
+    z-index: 1;
+  }
+
+  @media (hover) {
+    #teleprompter-play:hover {
+      background-color: #2fb84e;
+      box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, .12);
+    }
+  }
+
+  #teleprompter-play:focus-visible {
+    outline: 2px solid var(--outline);
+    outline-offset: 2px;
+  }
+
+  body.prompter-mode #teleprompter-play {
+    opacity: 0.35;
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+
+  body.prompter-mode #button {
+    opacity: 0.35;
   }
 
   span.ripple {
@@ -261,8 +308,159 @@
       visibility: hidden !important;
     }
   }
+
+  /* Teleprompter section inside menu */
+  #menu .prompter-section {
+    padding: 10px 14px 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    #menu .prompter-section {
+      border-top-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  #menu .prompter-section .prompter-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+
+  #menu .prompter-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  #menu .prompter-row:last-child {
+    margin-bottom: 0;
+  }
+
+  #menu .prompter-section .toolbar-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--text);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    #menu .prompter-section .toolbar-btn {
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  #menu .prompter-section .toolbar-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    #menu .prompter-section .toolbar-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  #menu .prompter-section .toolbar-btn.active {
+    background: var(--outline);
+    color: #fff;
+  }
+
+  #menu .prompter-section input[type="color"] {
+    width: 36px;
+    height: 36px;
+    padding: 2px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  #menu .prompter-section .prompter-speed-row {
+    align-items: center;
+    gap: 6px;
+  }
+
+  #menu .prompter-section .speed-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    opacity: 0.75;
+    flex-shrink: 0;
+  }
+
+  #menu .prompter-section .speed-icon img {
+    display: block;
+    object-fit: contain;
+  }
+
+  #menu .prompter-section input[type="range"] {
+    flex: 1;
+    min-width: 0;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    #menu .prompter-section input[type="range"] {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  #menu .prompter-section input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--outline);
+    cursor: pointer;
+  }
+
+  /* Prompter mode: fullscreen reading */
+  body.prompter-mode {
+    overflow: hidden;
+  }
+
+  body.prompter-mode article {
+    font-size: var(--prompter-font-size, 24px) !important;
+    background-color: var(--prompter-bg, #000) !important;
+    color: var(--prompter-fg, #fff) !important;
+    contenteditable: false;
+    padding: 20px max(20px, calc(50vw - 400px));
+    min-height: 100dvh;
+  }
+
+  article.prompter-mirror-h {
+    transform: scaleX(-1);
+  }
+
+  article.prompter-mirror-v {
+    transform: scaleY(-1);
+  }
+
+  article.prompter-mirror-h.prompter-mirror-v {
+    transform: scale(-1, -1);
+  }
 </style>
 <article contenteditable="plaintext-only" spellcheck autofocus></article>
+<button id="teleprompter-play" class="noprint" type="button" title="Запустить телетекст" aria-label="Запустить телетекст">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+</button>
 <button id="button" class="noprint">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
        stroke="currentColor"
@@ -303,7 +501,26 @@
     </svg>
     Save as TEXT
   </a>
-  <a class="item" href="https://github.com/antonmedv/textarea" target="_blank" role="menuitem">
+  <div class="prompter-section">
+    <div class="prompter-label">Телетекст</div>
+    <div class="prompter-row">
+      <button type="button" class="toolbar-btn" id="font-minus" title="Уменьшить шрифт" aria-label="Уменьшить шрифт">A−</button>
+      <button type="button" class="toolbar-btn" id="font-plus" title="Увеличить шрифт" aria-label="Увеличить шрифт">A+</button>
+      <button type="button" class="toolbar-btn" id="mirror-h" title="Отразить по горизонтали" aria-label="Отразить по горизонтали">⇄</button>
+      <button type="button" class="toolbar-btn" id="mirror-v" title="Отразить по вертикали" aria-label="Отразить по вертикали">⇅</button>
+      <input type="color" id="bg-color" title="Цвет фона" aria-label="Цвет фона" value="#000000">
+    </div>
+    <div class="prompter-row prompter-speed-row">
+      <span class="speed-icon speed-slow" title="Медленнее" aria-hidden="true">
+        <img src="assets/snail-slow.png" width="18" height="18" alt="">
+      </span>
+      <input type="range" id="speed-slider" min="20" max="500" value="50" title="Скорость прокрутки" aria-label="Скорость прокрутки">
+      <span class="speed-icon speed-fast" title="Быстрее" aria-hidden="true">
+        <img src="assets/lightning-fast.png" width="18" height="18" alt="">
+      </span>
+    </div>
+  </div>
+  <a class="item" href="https://github.com/itcaat/teleprompter" target="_blank" role="menuitem">
     <svg aria-hidden="true" focusable="false" width="22" height="22">
       <use xlink:href="#icon-github"></use>
     </svg>
@@ -334,7 +551,196 @@
     navigator.serviceWorker.register('sw.js')
   }
 
-  console.log('%cGitHub https://github.com/antonmedv/textarea', 'font-size: 16px; border: 1px solid lightblue; border-radius: 12px; padding: 10px 14px; ')
+  initTeleprompter()
+
+  function initTeleprompter() {
+    const STORAGE_KEY = 'teleprompter'
+    const FONT_MIN = 14
+    const FONT_MAX = 72
+    const FONT_DEFAULT = 24
+    const SPEED_MIN = 20
+    const SPEED_MAX = 500
+    const SPEED_DEFAULT = 50
+    const JUMP_PX = 140
+    const JUMP_MS = 180
+
+    let prompterPlaying = false
+    let scrollRAF = null
+    let lastScrollTime = 0
+
+    let state = {
+      fontSize: FONT_DEFAULT,
+      bgColor: '#000000',
+      mirrorH: false,
+      mirrorV: false,
+      speed: SPEED_DEFAULT
+    }
+
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY)
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        state.fontSize = Math.max(FONT_MIN, Math.min(FONT_MAX, parsed.fontSize ?? FONT_DEFAULT))
+        state.bgColor = parsed.bgColor ?? state.bgColor
+        state.mirrorH = !!parsed.mirrorH
+        state.mirrorV = !!parsed.mirrorV
+        state.speed = Math.max(SPEED_MIN, Math.min(SPEED_MAX, parsed.speed ?? SPEED_DEFAULT))
+      }
+    } catch (e) {}
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+      } catch (e) {}
+    }
+
+    function applyPrompterStyles() {
+      document.body.style.setProperty('--prompter-font-size', state.fontSize + 'px')
+      document.body.style.setProperty('--prompter-bg', state.bgColor)
+      const isDark = luminance(state.bgColor) < 0.4
+      document.body.style.setProperty('--prompter-fg', isDark ? '#fff' : '#111')
+    }
+
+    function applyFontSize() {
+      document.body.style.setProperty('--prompter-font-size', state.fontSize + 'px')
+    }
+
+    function applyBgColor() {
+      document.body.style.setProperty('--prompter-bg', state.bgColor)
+    }
+
+    function luminance(hex) {
+      const n = parseInt(hex.slice(1), 16)
+      const r = (n >> 16) / 255, g = ((n >> 8) & 0xff) / 255, b = (n & 0xff) / 255
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b
+    }
+
+    const fontMin = document.getElementById('font-minus')
+    const fontPlus = document.getElementById('font-plus')
+    const bgColorInput = document.getElementById('bg-color')
+    const mirrorHBtn = document.getElementById('mirror-h')
+    const mirrorVBtn = document.getElementById('mirror-v')
+    const speedSlider = document.getElementById('speed-slider')
+    const playBtn = document.getElementById('teleprompter-play')
+    const playIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>'
+    const pauseIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>'
+
+    bgColorInput.value = state.bgColor
+    speedSlider.value = state.speed
+    mirrorHBtn.classList.toggle('active', state.mirrorH)
+    mirrorVBtn.classList.toggle('active', state.mirrorV)
+    applyFontSize()
+    applyBgColor()
+    updateArticleMirror()
+
+    fontMin.addEventListener('click', () => {
+      state.fontSize = Math.max(FONT_MIN, state.fontSize - 2)
+      saveState()
+      applyFontSize()
+      if (prompterPlaying) applyPrompterStyles()
+    })
+    fontPlus.addEventListener('click', () => {
+      state.fontSize = Math.min(FONT_MAX, state.fontSize + 2)
+      saveState()
+      applyFontSize()
+      if (prompterPlaying) applyPrompterStyles()
+    })
+    bgColorInput.addEventListener('input', () => {
+      state.bgColor = bgColorInput.value
+      saveState()
+      applyBgColor()
+      if (prompterPlaying) applyPrompterStyles()
+    })
+    mirrorHBtn.addEventListener('click', () => {
+      state.mirrorH = !state.mirrorH
+      saveState()
+      mirrorHBtn.classList.toggle('active', state.mirrorH)
+      updateArticleMirror()
+    })
+    mirrorVBtn.addEventListener('click', () => {
+      state.mirrorV = !state.mirrorV
+      saveState()
+      mirrorVBtn.classList.toggle('active', state.mirrorV)
+      updateArticleMirror()
+    })
+    speedSlider.addEventListener('input', () => {
+      state.speed = +speedSlider.value
+      saveState()
+    })
+
+    function updateArticleMirror() {
+      article.classList.toggle('prompter-mirror-h', state.mirrorH)
+      article.classList.toggle('prompter-mirror-v', state.mirrorV)
+    }
+
+    function setPlayButtonPlaying(playing) {
+      playBtn.innerHTML = playing ? pauseIcon : playIcon
+      playBtn.title = playing ? 'Пауза' : 'Запустить телетекст'
+      playBtn.setAttribute('aria-label', playing ? 'Пауза' : 'Запустить телетекст')
+    }
+
+    function startPrompter() {
+      prompterPlaying = true
+      setPlayButtonPlaying(true)
+      document.querySelector('#menu').classList.remove('visible')
+      document.body.classList.add('prompter-mode')
+      article.setAttribute('contenteditable', 'false')
+      applyPrompterStyles()
+      updateArticleMirror()
+      lastScrollTime = performance.now()
+      function scrollStep(now) {
+        if (!prompterPlaying) return
+        const dt = (now - lastScrollTime) / 1000
+        lastScrollTime = now
+        const dy = state.speed * dt
+        window.scrollBy(0, dy)
+        scrollRAF = requestAnimationFrame(scrollStep)
+      }
+      scrollRAF = requestAnimationFrame(scrollStep)
+    }
+
+    function stopPrompter() {
+      prompterPlaying = false
+      setPlayButtonPlaying(false)
+      if (scrollRAF != null) {
+        cancelAnimationFrame(scrollRAF)
+        scrollRAF = null
+      }
+      document.body.classList.remove('prompter-mode')
+      article.setAttribute('contenteditable', 'plaintext-only')
+      updateArticleMirror()
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (prompterPlaying) stopPrompter()
+      else startPrompter()
+    })
+
+    function smoothScrollBy(dy) {
+      const start = window.scrollY
+      const startTime = performance.now()
+      function step(now) {
+        const t = Math.min((now - startTime) / JUMP_MS, 1)
+        const ease = 1 - (1 - t) * (1 - t)
+        window.scrollTo(0, start + dy * ease)
+        if (t < 1) requestAnimationFrame(step)
+      }
+      requestAnimationFrame(step)
+    }
+
+    document.addEventListener('keydown', e => {
+      if (!document.body.classList.contains('prompter-mode')) return
+      if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        smoothScrollBy(-JUMP_PX)
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        smoothScrollBy(JUMP_PX)
+      }
+    })
+  }
+
+  console.log('%cGitHub https://github.com/itcaat/teleprompter', 'font-size: 16px; border: 1px solid lightblue; border-radius: 12px; padding: 10px 14px; ')
 
   async function load() {
     try {
